@@ -11,8 +11,8 @@ var app = builder.Build();
 var firehoseKey = Environment.GetEnvironmentVariable("ACCESS_KEY");
 var firehoseSecret = Environment.GetEnvironmentVariable("ACCESS_SECRET");
 
-var firehoseRegion = "ca-central-1";
 var firehoseStreamName = Environment.GetEnvironmentVariable("STREAM_NAME");
+var firehoseRegion = Environment.GetEnvironmentVariable("STREAM_REGION");
 
 var firehoseClient = new AmazonKinesisFirehoseClient(
     new BasicAWSCredentials(firehoseKey, firehoseSecret),
