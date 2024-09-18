@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirehoseHttp", "FirehoseHttp\FirehoseHttp.csproj", "{3B0059CE-FAE2-43B2-8A84-056024CE68D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirehoseHttp.Tests", "FirehoseHttp.Tests\FirehoseHttp.Tests.csproj", "{C4EC132F-0561-4E38-A5E1-606DAE1C085A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3B0059CE-FAE2-43B2-8A84-056024CE68D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B0059CE-FAE2-43B2-8A84-056024CE68D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B0059CE-FAE2-43B2-8A84-056024CE68D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EC132F-0561-4E38-A5E1-606DAE1C085A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EC132F-0561-4E38-A5E1-606DAE1C085A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EC132F-0561-4E38-A5E1-606DAE1C085A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EC132F-0561-4E38-A5E1-606DAE1C085A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
