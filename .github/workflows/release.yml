@@ -48,6 +48,6 @@ jobs:
         file: Dockerfile
         push: true
         tags: |
-          ${{ env.DOCKER_USER }}/FirehoseHttp:${{ needs.meta.outputs.semVer }}
-          ${{ env.DOCKER_USER }}/FirehoseHttp:latest
+          ${{ secrets.DOCKER_USER }}/FirehoseHttp:${{ needs.meta.outputs.semVer }}
+          ${{ secrets.DOCKER_USER }}/FirehoseHttp:latest
     
