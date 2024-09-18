@@ -1,0 +1,60 @@
+name: Release Docker Image
+
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  meta:
+      name: Determine build state
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        # Get git version set up
+        - name: Fetch all history for all tags and branches
+          run: |
+            git config --global --add safe.directory $GITHUB_WORKSPACE
+            git fetch --prune --unshallow
+        - name: Install GitVersion
+          uses: gittools/actions/gitversion/setup@v0
+          with:
+            versionSpec: '5.x'
+        - name: Determine Version
+          uses: gittools/actions/gitversion/execute@v0
+          id: gitversion
+          with:
+            useConfigFile: true
+      outputs:
+        semVer: ${{ steps.gitversion.outputs.semVer }}
+  build:
+    runs-on: ubuntu-latest
+    needs: meta
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: GitHub Action to Setup GitVersion
+      # You may pin to the exact commit or the version.
+      # uses: StanleyGoldman/setup-gitversion@a374f5e1b8c33fb6efd03c402cb511f02eafa245
+      uses: StanleyGoldman/setup-gitversion@v1.0.1
+      with:
+        # Version range or exact version of GitVersion to use
+        gitversion-version: 5.12.0
+        # Whether to run GitVersion
+        run-gitversion: true
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ env.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        
+    - name: Build and Release Docker images to Dockerhub
+      uses: docker/build-push-action@v2.9.0
+      with:
+        context: .
+        file: Dockerfile
+        push: true
+        tags: |
+          ${{ env.DOCKER_USER }}/FirehoseHttp:${{ needs.meta.outputs.semVer }}
+          ${{ env.DOCKER_USER }}/FirehoseHttp:latest
+    
