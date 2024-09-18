@@ -1,0 +1,28 @@
+meta {
+  name: put batch of messages
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5129/putBatch
+  body: text
+  auth: none
+}
+
+body:text {
+  {"eventId":"event","timestamp":"{{date}}","data":{"content":"string","value":"string of words"}}
+  {"eventId":"event","timestamp":"{{date1}}","data":{"content":"string","value":"another"}}
+  {"eventId":"event","timestamp":"{{date2}}","data":{"content":"string","value":"yet more"}}
+  {"eventId":"event","timestamp":"{{date3}}","data":{"content":"string","value":"even more!"}}
+}
+
+script:pre-request {
+  bru.setVar("date",new Date())
+  bru.sleep(10)
+  bru.setVar("date1",new Date())
+  bru.sleep(10)
+  bru.setVar("date2",new Date())
+  bru.sleep(10)
+  bru.setVar("date3",new Date())
+}

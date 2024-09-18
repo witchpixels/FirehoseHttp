@@ -1,0 +1,33 @@
+meta {
+  name: put batch in Json Format
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:5129/put
+  body: json
+  auth: none
+}
+
+body:json {
+  [{
+    "eventId": "event",
+    "timestamp": "{{date}}",
+    "data": {
+      "content": "string",
+      "value": "string of words"
+    }
+  },{
+    "eventId": "event",
+    "timestamp": "{{date}}",
+    "data": {
+      "content": "string",
+      "value": "also here!"
+    }
+  }]
+}
+
+script:pre-request {
+  bru.setVar("date",new Date())
+}

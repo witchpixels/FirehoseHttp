@@ -1,0 +1,26 @@
+meta {
+  name: put single message
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:5129/put
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "eventId": "event",
+    "timestamp": "{{date}}",
+    "data": {
+      "content": "string",
+      "value": "string of words"
+    }
+  }
+}
+
+script:pre-request {
+  bru.setVar("date",new Date())
+}
