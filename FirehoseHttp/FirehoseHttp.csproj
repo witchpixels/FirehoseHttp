@@ -16,8 +16,5 @@
 
     <ItemGroup>
         <PackageReference Include="AWSSDK.KinesisFirehose" Version="3.7.400.21"/>
-        <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
-            <PrivateAssets>All</PrivateAssets>
-        </PackageReference>
     </ItemGroup>
 </Project>
