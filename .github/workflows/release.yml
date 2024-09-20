@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - v*
+        
+env:
+  AWS_REGION: "ca-central-1"
+
 jobs:
   meta:
       name: Determine build state
@@ -34,6 +38,18 @@ jobs:
     needs: meta
     steps:
     - uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+    
     
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -48,6 +64,8 @@ jobs:
         file: ./FirehoseHttp/Dockerfile
         push: true
         tags: |
-          ${{ vars.DOCKER_USER }}/firehose-http:${{ needs.meta.outputs.semVer }}
-          ${{ vars.DOCKER_USER }}/firehose-http:latest
+          witchpixels/firehose-http:${{ needs.meta.outputs.semVer }}
+          witchpixels/firehose-http:latest
+          public.ecr.aws/k0p9f4k3/firehose-http:${{ needs.meta.outputs.semVer }}
+          public.ecr.aws/k0p9f4k3/firehose-http:latest
     

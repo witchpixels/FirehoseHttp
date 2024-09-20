@@ -1,6 +1,6 @@
 FirehoseHTTP
 ------------
-And Containerized Http Interface for AWS Firehose for testing, or very very basic event ingestion.
+A Containerized Http Interface for AWS Firehose for testing, or very very basic event ingestion.
 
 Created basically for the singular purpose of testing analytics collectors in various engines, namely Unreal.
 
