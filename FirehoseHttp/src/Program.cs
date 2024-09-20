@@ -1,12 +1,16 @@
+using System.Diagnostics;
 using Amazon;
 using Amazon.KinesisFirehose;
 using Amazon.Runtime;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using WitchPixels.FirehoseHttp;
 using WitchPixels.FirehoseHttp.Batching;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks();
+builder.Services.AddCors(
+    options => options.AddDefaultPolicy(policyBuilder => policyBuilder.WithOrigins("*")));
 
 var app = builder.Build();
 
@@ -35,6 +39,23 @@ var firehoseHttpApi = new FirehoseHttpApi(
     },
     new DefaultBatchDecoder());
 
+app.UseCors();
+
+app.Use(async (ctx, next) =>
+{
+    var stopwatch = new Stopwatch();
+    stopwatch.Start();
+    try
+    {
+        await next(ctx);
+    }
+    finally
+    {
+        stopwatch.Stop();
+        app.Logger.LogInformation($"{ctx.Response.StatusCode} {ctx.Request.Path} {stopwatch.ElapsedMilliseconds} ms");
+    }
+    
+});
 app.Use(async (ctx, next) =>
 {
     try
