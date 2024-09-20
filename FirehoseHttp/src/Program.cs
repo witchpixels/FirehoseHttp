@@ -5,6 +5,9 @@ using WitchPixels.FirehoseHttp;
 using WitchPixels.FirehoseHttp.Batching;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 var firehoseKey = Environment.GetEnvironmentVariable("ACCESS_KEY");
@@ -32,9 +35,22 @@ var firehoseHttpApi = new FirehoseHttpApi(
     },
     new DefaultBatchDecoder());
 
+app.Use(async (ctx, next) =>
+{
+    try
+    {
+        await next(ctx);
+    }
+    catch (Exception e)
+    {
+        app.Logger.LogError(e, "Uncaught exception had occurred");
+        throw;
+    }
+});
 
+
+app.MapHealthChecks("/zhealth");
 app.MapPost("/put", async httpCtx => { await firehoseHttpApi.SinglePutRequest(httpCtx); });
-
 app.MapPost("/putBatch", async httpCtx => { await firehoseHttpApi.BatchPutRequest(httpCtx); });
 
 app.Run();
